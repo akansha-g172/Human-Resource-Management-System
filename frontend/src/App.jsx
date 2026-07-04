@@ -56,8 +56,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route index element={<Navigate to="/admin/employees" replace />} />
               <Route path="employees" element={<EmployeeList />} />
               <Route path="leave" element={<LeaveApprovals />} />
               <Route path="attendance" element={<AttendanceView />} />

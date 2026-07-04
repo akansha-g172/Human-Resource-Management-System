@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { signUpSchema } from '../../utils/validators';
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/ui/Input';
+import EmailInput from '../../components/ui/EmailInput';
+import PasswordInput from '../../components/ui/PasswordInput';
 import Button from '../../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
 import { useToast } from '../../components/ui/Toast';
@@ -156,12 +158,9 @@ export default function SignUp() {
             />
 
             {/* Email Address */}
-            <Input
+            <EmailInput
               id="email"
               name="email"
-              label="Email Address"
-              type="email"
-              placeholder="john.doe@company.com"
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
@@ -205,12 +204,10 @@ export default function SignUp() {
             </div>
 
             {/* Password */}
-            <Input
+            <PasswordInput
               id="password"
               name="password"
               label="Password"
-              type="password"
-              placeholder="Min 8 characters, 1 number"
               value={formData.password}
               onChange={handleChange}
               error={errors.password}
@@ -219,16 +216,16 @@ export default function SignUp() {
             />
 
             {/* Confirm Password */}
-            <Input
+            <PasswordInput
               id="confirmPassword"
               name="confirmPassword"
               label="Confirm Password"
-              type="password"
               placeholder="Repeat your password"
               value={formData.confirmPassword}
               onChange={handleChange}
               error={errors.confirmPassword}
               required
+              showCriteria={false}
               className="text-white placeholder-neutral-500 [&>input]:bg-neutral-950/60 [&>input]:border-white/10 [&>input]:text-white [&>input]:placeholder-neutral-500 [&>label]:text-neutral-300 [&>input]:focus:border-primary-500 [&>input]:focus:ring-primary-500"
             />
 

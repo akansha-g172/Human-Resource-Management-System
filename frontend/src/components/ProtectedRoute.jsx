@@ -22,7 +22,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     // Redirect based on role if unauthorized
-    const defaultRoute = user.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+    const defaultRoute = user.role === 'admin' ? '/admin/employees' : '/dashboard';
     return <Navigate to={defaultRoute} replace />;
   }
 

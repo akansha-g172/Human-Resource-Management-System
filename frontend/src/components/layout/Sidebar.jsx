@@ -26,7 +26,6 @@ export default function Sidebar({ isOpen, onClose }) {
   ];
 
   const adminLinks = [
-    { to: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
     { to: '/admin/employees', label: 'Employees', icon: Users },
     { to: '/admin/leave', label: 'Leave Requests', icon: CalendarDays },
     { to: '/admin/attendance', label: 'Attendance logs', icon: Clock },

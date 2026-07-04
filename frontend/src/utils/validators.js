@@ -1,9 +1,11 @@
 import { z } from 'zod';
 
-// Validate password format: min 8 characters and at least one number
+// Validate password format: min 8 characters, uppercase, number, and special character
 const passwordSchema = z.string()
   .min(8, { message: "Password must be at least 8 characters long" })
-  .refine((val) => /\d/.test(val), { message: "Password must contain at least one number" });
+  .refine((val) => /[A-Z]/.test(val), { message: "Password must contain at least one uppercase letter" })
+  .refine((val) => /\d/.test(val), { message: "Password must contain at least one number" })
+  .refine((val) => /[#@%&*!]/.test(val), { message: "Password must contain at least one special character (#@%&*!)" });
 
 // Sign Up Schema
 export const signUpSchema = z.object({

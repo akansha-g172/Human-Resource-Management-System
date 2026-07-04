@@ -54,9 +54,8 @@ export default function SignIn() {
 
     if (result.success) {
       showToast(`Welcome back, ${formData.identifier}!`, "success");
-      // Redirect based on role
       if (result.role === 'admin') {
-        navigate('/admin/dashboard', { replace: true });
+        navigate('/admin/employees', { replace: true });
       } else {
         navigate('/dashboard', { replace: true });
       }

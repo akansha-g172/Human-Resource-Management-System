@@ -30,35 +30,39 @@ export default function EmployeeDashboard() {
   const [recentAttendance, setRecentAttendance] = useState([]);
   const [recentLeaves, setRecentLeaves] = useState([]);
 
-  useEffect(() => {
-    async function loadDashboardData() {
-      try {
-        const todayStr = new Date().toISOString().substring(0, 10);
-        
-        // Fetch data in parallel
-        const [attList, leaveList] = await Promise.all([
-          attendanceService.getAttendanceMe(user.userId, null, null),
-          leaveService.getLeaveMe(user.userId)
-        ]);
+  const loadDashboardData = async () => {
+    try {
+      const todayStr = new Date().toISOString().substring(0, 10);
+      
+      // Fetch data in parallel
+      const [attList, leaveList] = await Promise.all([
+        attendanceService.getAttendanceMe(user.userId, null, null),
+        leaveService.getLeaveMe(user.userId)
+      ]);
 
-        // Find today's record
-        const todayRec = attList.find(a => a.date === todayStr);
-        setTodayAttendance(todayRec || null);
-        
-        // Get recent 3 items
-        setRecentAttendance(attList.slice(0, 3));
-        setRecentLeaves(leaveList.slice(0, 3));
-      } catch (err) {
-        showToast("Failed to load dashboard data.", "error");
-      } finally {
-        setLoading(false);
-      }
+      // Find today's record
+      const todayRec = attList.find(a => a.date === todayStr);
+      setTodayAttendance(todayRec || null);
+      
+      // Get recent 3 items
+      setRecentAttendance(attList.slice(0, 3));
+      setRecentLeaves(leaveList.slice(0, 3));
+    } catch (err) {
+      showToast("Failed to load dashboard data.", "error");
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     if (user) {
       loadDashboardData();
     }
-  }, [user, showToast]);
+    
+    // Sync state when check in status changes on Navbar
+    window.addEventListener('attendance-updated', loadDashboardData);
+    return () => window.removeEventListener('attendance-updated', loadDashboardData);
+  }, [user]);
 
   if (loading) {
     return (
@@ -155,8 +159,8 @@ export default function EmployeeDashboard() {
             </div>
 
             <Link to="/attendance" className="block mt-4">
-              <Button className="w-full text-xs font-semibold py-2" size="sm" variant={todayAttendance ? "outline" : "primary"}>
-                {todayAttendance ? "View Details" : "Clock In Now"}
+              <Button className="w-full text-xs font-semibold py-2" size="sm" variant="outline">
+                View History
                 <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
               </Button>
             </Link>
