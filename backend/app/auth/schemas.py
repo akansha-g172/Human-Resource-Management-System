@@ -1,6 +1,6 @@
 from typing import Optional
 from datetime import date, datetime
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from pydantic.alias_generators import to_camel
 
 class CamelModel(BaseModel):
@@ -29,3 +29,24 @@ class ProfileResponse(CamelModel):
     salary: Optional[float] = None
     date_joined: Optional[date] = None
     created_at: Optional[datetime] = None
+
+class AuthLoginRequest(CamelModel):
+    identifier: str
+    password: str
+
+class AuthSignUpRequest(CamelModel):
+    name: str
+    email: EmailStr
+    password: str
+    confirm_password: str
+    role: str = Field(default="employee", pattern="^(admin|employee)$")
+    start_date: date = Field(default_factory=date.today)
+
+class AuthLoginResponse(CamelModel):
+    access_token: str
+    refresh_token: Optional[str] = None
+    token_type: str = "bearer"
+    user_id: str
+    employee_id: str
+    name: str
+    role: str

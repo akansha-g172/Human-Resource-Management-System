@@ -39,10 +39,10 @@ class EmployeeService:
         return "".join(password)
 
     @classmethod
-    async def create_employee(cls, request: EmployeeCreateRequest) -> dict:
+    async def create_employee(cls, request: EmployeeCreateRequest, password: Optional[str] = None) -> dict:
         """
-        Admin action to create a new employee.
-        Generates login_id, employee_id, password, registers in Supabase auth,
+        Admin or self-service action to create a new employee.
+        Generates login_id, employee_id, registers in Supabase auth,
         inserts the database profile, and publishes a welcome notification.
         """
         supabase = await get_supabase()
@@ -92,14 +92,14 @@ class EmployeeService:
                 detail=f"Atomic employee ID generation failed: {str(e)}"
             )
 
-        # 4. Generate cryptographically secure temporary password
-        temp_password = cls.generate_temp_password()
+        # 4. Use the provided password if available, otherwise generate one
+        generated_password = password if password else cls.generate_temp_password()
         
         # 5. Create user in Supabase Auth via Admin API
         try:
             auth_response = await supabase.auth.admin.create_user({
                 "email": request.email,
-                "password": temp_password,
+                "password": generated_password,
                 "email_confirm": True,
                 "user_metadata": {
                     "name": request.name,
@@ -150,11 +150,10 @@ class EmployeeService:
                 "message": f"Hello {request.name}, your account is active. Employee ID: {employee_id}, Login ID: {login_id}. For security, reset your password on your first login."
             }).execute()
         except Exception:
-            # Logging warning/silent fail for notification, not blocking user flow
             pass
 
-        # Return profile + temporary password (returned once)
-        created_profile["temporary_password"] = temp_password
+        if not password:
+            created_profile["temporary_password"] = generated_password
         return created_profile
 
     @staticmethod

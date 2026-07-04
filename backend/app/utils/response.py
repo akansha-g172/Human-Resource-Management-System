@@ -23,7 +23,7 @@ def success_response(message: str, data: Any = None, status_code: int = 200) -> 
         content={
             "success": True,
             "message": message,
-            "data": jsonable_encoder(data) if data is not None else None
+            "data": jsonable_encoder(data, by_alias=True) if data is not None else None
         }
     )
 

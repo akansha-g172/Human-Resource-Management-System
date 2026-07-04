@@ -7,14 +7,14 @@ export async function getProfileMe(userId) {
   if (USE_MOCK) {
     return mockGetProfileMe(userId);
   }
-  const response = await apiClient.get('/profile/me');
-  return response.data;
+  const response = await apiClient.get('/employees/me');
+  return response.data.data;
 }
 
 export async function updateProfileMe(data, userId) {
   if (USE_MOCK) {
     return mockUpdateProfileMe(userId, data);
   }
-  const response = await apiClient.patch('/profile/me', data);
-  return response.data;
+  const response = await apiClient.patch('/employees/me', data);
+  return response.data.data;
 }

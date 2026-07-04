@@ -169,25 +169,7 @@ export default function SignUp() {
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Role */}
-              <div className="flex flex-col gap-1 w-full">
-                <label htmlFor="role" className="text-xs font-semibold text-neutral-300">
-                  Role <span className="text-danger-500">*</span>
-                </label>
-                <select
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border-white/10 bg-neutral-950/60 text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm py-2 px-3 transition-colors"
-                >
-                  <option className="bg-neutral-900 text-white" value="employee">Employee</option>
-                  <option className="bg-neutral-900 text-white" value="admin">Administrator</option>
-                </select>
-                {errors.role && (
-                  <span className="text-xs text-danger-400 font-medium leading-4 mt-0.5">{errors.role}</span>
-                )}
-              </div>
+              <input type="hidden" name="role" value="employee" />
 
               {/* Start Date */}
               <Input

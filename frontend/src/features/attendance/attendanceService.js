@@ -7,16 +7,16 @@ export async function checkIn(userId) {
   if (USE_MOCK) {
     return mockCheckIn(userId);
   }
-  const response = await apiClient.post('/attendance/check-in');
-  return response.data;
+  const response = await apiClient.post('/attendance/checkin');
+  return response.data.data;
 }
 
 export async function checkOut(userId) {
   if (USE_MOCK) {
     return mockCheckOut(userId);
   }
-  const response = await apiClient.post('/attendance/check-out');
-  return response.data;
+  const response = await apiClient.post('/attendance/checkout');
+  return response.data.data;
 }
 
 export async function getAttendanceMe(userId, fromDate, toDate) {
@@ -34,5 +34,5 @@ export async function getAttendanceMe(userId, fromDate, toDate) {
   }
   
   const response = await apiClient.get(url);
-  return response.data;
+  return response.data.data;
 }

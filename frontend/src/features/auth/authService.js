@@ -7,14 +7,14 @@ export async function login(identifier, password) {
   if (USE_MOCK) {
     return mockLogin(identifier, password);
   }
-  const response = await apiClient.post('/login', { identifier, password });
-  return response.data;
+  const response = await apiClient.post('/auth/login', { identifier, password });
+  return response.data.data;
 }
 
 export async function signUp(data) {
   if (USE_MOCK) {
     return mockSignUp(data);
   }
-  const response = await apiClient.post('/signup', data);
-  return response.data;
+  const response = await apiClient.post('/auth/signup', data);
+  return response.data.data;
 }
