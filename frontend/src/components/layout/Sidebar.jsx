@@ -21,7 +21,6 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const employeeLinks = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/profile', label: 'My Profile', icon: User },
     { to: '/attendance', label: 'Attendance', icon: Clock },
     { to: '/leave', label: 'Apply Leave', icon: CalendarCheck },
     { to: '/payroll', label: 'My Payroll', icon: CreditCard },
@@ -76,8 +75,12 @@ export default function Sidebar({ isOpen, onClose }) {
           {/* User profile brief */}
           <div className="px-6 py-6 border-b border-neutral-800 bg-neutral-950/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary-600/20 border border-primary-500/30 flex items-center justify-center font-bold text-primary-400 uppercase text-sm shrink-0">
-                {user.name.substring(0, 2)}
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-neutral-800/40 flex items-center justify-center font-bold text-primary-400 uppercase text-sm shrink-0 bg-neutral-800">
+                {user.photoUrl ? (
+                  <img src={user.photoUrl} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  user.name.substring(0, 2)
+                )}
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-xs text-neutral-100 truncate">{user.name}</p>

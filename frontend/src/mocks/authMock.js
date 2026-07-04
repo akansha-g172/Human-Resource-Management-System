@@ -46,7 +46,8 @@ export async function mockLogin(identifier, password) {
     userId: profile.id,
     employeeId: profile.employeeId,
     name: profile.name,
-    role: profile.role
+    role: profile.role,
+    photoUrl: profile.photoUrl
   };
 }
 

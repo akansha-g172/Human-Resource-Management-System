@@ -23,7 +23,7 @@ import {
 import { formatToHumanDate } from '../../utils/dateHelpers';
 
 export default function ProfileView() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { showToast } = useToast();
   
   const [profile, setProfile] = useState(null);
@@ -57,6 +57,12 @@ export default function ProfileView() {
         updated = await profileService.updateProfileMe(formData, user.userId);
       }
       setProfile(updated);
+      if (updateUser) {
+        updateUser({
+          name: updated.name,
+          photoUrl: updated.photoUrl
+        });
+      }
       setEditMode(false);
       showToast("Profile updated successfully!", "success");
     } catch (err) {

@@ -158,13 +158,12 @@ export default function Navbar({ onMenuToggle }) {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 hover:bg-neutral-50 p-1.5 rounded-xl transition-all"
           >
-            <div className="hidden text-right md:block">
-              <p className="text-xs font-bold text-neutral-800 leading-3">{user.name}</p>
-              <span className="text-[9px] text-neutral-500 font-semibold capitalize mt-0.5">{user.role}</span>
-            </div>
-            
-            <div className="w-8 h-8 rounded-full bg-primary-50 hover:bg-primary-100 flex items-center justify-center font-bold text-primary-600 text-xs border border-primary-100 uppercase select-none shrink-0 transition-colors">
-              {user.name.substring(0, 2)}
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-primary-100 flex items-center justify-center font-bold text-primary-600 text-xs bg-primary-50 shrink-0 select-none">
+              {user.photoUrl ? (
+                <img src={user.photoUrl} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                user.name.substring(0, 2)
+              )}
             </div>
             <ChevronDown className="w-3.5 h-3.5 text-neutral-400" />
           </button>

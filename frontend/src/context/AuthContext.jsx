@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as authService from '../features/auth/authService';
+import { mockGetProfileMe } from '../mocks/profileMock';
+import apiClient from '../api/apiClient';
 
 export const AuthContext = createContext(null);
 
@@ -15,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const savedRole = localStorage.getItem('role');
     const savedName = localStorage.getItem('userName');
     const savedEmpId = localStorage.getItem('employeeId');
+    const savedPhoto = localStorage.getItem('photoUrl');
 
     if (savedToken && savedUserId && savedRole) {
       setToken(savedToken);
@@ -22,8 +25,38 @@ export const AuthProvider = ({ children }) => {
         userId: savedUserId,
         role: savedRole,
         name: savedName || 'User',
-        employeeId: savedEmpId || ''
+        employeeId: savedEmpId || '',
+        photoUrl: savedPhoto || null
       });
+
+      // Background self-heal: Fetch profile details to ensure the name/avatar are up-to-date
+      const syncProfile = async () => {
+        try {
+          const useMock = import.meta.env.VITE_USE_MOCK === 'true';
+          let profileData;
+          if (useMock) {
+            profileData = await mockGetProfileMe(savedUserId);
+          } else {
+            const response = await apiClient.get('/profile/me');
+            profileData = response.data;
+          }
+          if (profileData) {
+            setUser(prev => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                name: profileData.name || prev.name,
+                photoUrl: profileData.photoUrl || null
+              };
+            });
+            localStorage.setItem('userName', profileData.name || '');
+            localStorage.setItem('photoUrl', profileData.photoUrl || '');
+          }
+        } catch (err) {
+          console.error("Background profile sync failed:", err);
+        }
+      };
+      syncProfile();
     }
     setLoading(false);
   }, []);
@@ -31,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (identifier, password) => {
     try {
       const data = await authService.login(identifier, password);
-      const { accessToken, userId, employeeId, name, role } = data;
+      const { accessToken, userId, employeeId, name, role, photoUrl } = data;
       
       // Store in localStorage
       localStorage.setItem('token', accessToken);
@@ -39,13 +72,15 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('role', role);
       localStorage.setItem('userName', name);
       localStorage.setItem('employeeId', employeeId);
+      localStorage.setItem('photoUrl', photoUrl || '');
       
       setToken(accessToken);
       setUser({
         userId,
         employeeId,
         name,
-        role
+        role,
+        photoUrl: photoUrl || null
       });
       return { success: true, role };
     } catch (err) {
@@ -70,8 +105,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('role');
     localStorage.removeItem('userName');
     localStorage.removeItem('employeeId');
+    localStorage.removeItem('photoUrl');
     setToken(null);
     setUser(null);
+  };
+
+  const updateUser = (newData) => {
+    setUser(prev => {
+      if (!prev) return null;
+      const updated = { ...prev, ...newData };
+      if (newData.name !== undefined) localStorage.setItem('userName', newData.name);
+      if (newData.photoUrl !== undefined) localStorage.setItem('photoUrl', newData.photoUrl || '');
+      return updated;
+    });
   };
 
   return (
@@ -81,7 +127,8 @@ export const AuthProvider = ({ children }) => {
       loading,
       login: loginUser,
       signUp: signUpUser,
-      logout: logoutUser
+      logout: logoutUser,
+      updateUser
     }}>
       {children}
     </AuthContext.Provider>
