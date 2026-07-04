@@ -1,0 +1,28 @@
+# Node/Javascript
+**/node_modules/
+**/dist/
+**/dist-ssr/
+frontend/.env
+frontend/.env.*.local
+frontend/*.local
+
+# Python/FastAPI (Backend)
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Database / System
+*.db
+*.sqlite
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
