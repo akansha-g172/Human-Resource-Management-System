@@ -9,7 +9,8 @@ import {
   Clock, 
   LogOut, 
   X,
-  Sparkles
+  Sparkles,
+  CreditCard
 } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
 
@@ -23,12 +24,14 @@ export default function Sidebar({ isOpen, onClose }) {
     { to: '/profile', label: 'My Profile', icon: User },
     { to: '/attendance', label: 'Attendance', icon: Clock },
     { to: '/leave', label: 'Apply Leave', icon: CalendarCheck },
+    { to: '/payroll', label: 'My Payroll', icon: CreditCard },
   ];
 
   const adminLinks = [
     { to: '/admin/employees', label: 'Employees', icon: Users },
     { to: '/admin/leave', label: 'Leave Requests', icon: CalendarDays },
     { to: '/admin/attendance', label: 'Attendance logs', icon: Clock },
+    { to: '/admin/payroll', label: 'Payroll Control', icon: CreditCard },
   ];
 
   const links = user.role === 'admin' ? adminLinks : employeeLinks;

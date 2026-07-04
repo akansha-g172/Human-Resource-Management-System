@@ -292,7 +292,6 @@ export default function EmployeeList() {
                 <option value="name">Name</option>
                 <option value="employeeId">Employee ID</option>
                 <option value="department">Department</option>
-                <option value="salary">Salary</option>
                 <option value="dateJoined">Start Date</option>
               </select>
             </div>
@@ -372,12 +371,8 @@ export default function EmployeeList() {
                     <span>{emp.phone || '--'}</span>
                   </div>
 
-                  {/* Salary / Date */}
+                  {/* Date Joined */}
                   <div className="flex items-center justify-between border-t border-neutral-100 pt-2 mt-2">
-                    <div className="flex items-center gap-1 text-[10px] text-neutral-400 font-bold uppercase">
-                      <DollarSign className="w-3 h-3 text-neutral-300" />
-                      <span>{emp.salary ? `$${emp.salary.toLocaleString()}` : 'N/A'}</span>
-                    </div>
                     <span className="text-[10px] text-neutral-400 font-semibold flex items-center gap-1">
                       <CalendarDays className="w-3 h-3 text-neutral-300" />
                       Joined: {formatToHumanDate(emp.dateJoined)}

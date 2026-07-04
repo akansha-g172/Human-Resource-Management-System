@@ -21,6 +21,10 @@ import EmployeeList from './features/admin/EmployeeList';
 import LeaveApprovals from './features/admin/LeaveApprovals';
 import AttendanceView from './features/admin/AttendanceView';
 
+// Payroll features
+import PayrollView from './features/payroll/PayrollView';
+import PayrollAdminTable from './features/payroll/PayrollAdminTable';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -45,6 +49,7 @@ export default function App() {
               <Route path="profile" element={<ProfileView />} />
               <Route path="attendance" element={<AttendanceDashboard />} />
               <Route path="leave" element={<LeaveApplyForm />} />
+              <Route path="payroll" element={<PayrollView />} />
             </Route>
 
             {/* Admin Portal routes */}
@@ -61,6 +66,7 @@ export default function App() {
               <Route path="leave" element={<LeaveApprovals />} />
               <Route path="attendance" element={<AttendanceView />} />
               <Route path="profile" element={<ProfileView />} />
+              <Route path="payroll" element={<PayrollAdminTable />} />
             </Route>
 
             {/* Fallback routes */}

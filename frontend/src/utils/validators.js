@@ -68,11 +68,24 @@ export const adminEmployeeUpdateSchema = z.object({
   jobTitle: z.string().trim().min(1, { message: "Job title is required" }).nullable().or(z.string().trim().min(1)),
   department: z.string().trim().min(1, { message: "Department is required" }).nullable().or(z.string().trim().min(1)),
   phone: z.string().trim().nullable().or(z.string().trim().min(0)),
-  address: z.string().trim().nullable().or(z.string().trim().min(0)),
-  salary: z.preprocess(
-    (val) => (val === '' || val === null || val === undefined ? undefined : Number(val)),
-    z.number({ invalid_type_error: "Salary must be a number" })
-     .nonnegative({ message: "Salary must be a non-negative number" })
-     .nullable()
+  address: z.string().trim().nullable().or(z.string().trim().min(0))
+});
+
+// Payroll Update Schema (Admin)
+export const payrollUpdateSchema = z.object({
+  basicPay: z.preprocess(
+    (val) => (val === '' || val === null || val === undefined ? 0 : Number(val)),
+    z.number({ required_error: "Basic pay is required", invalid_type_error: "Basic pay must be a number" })
+     .nonnegative({ message: "Basic pay must be a non-negative number" })
+  ),
+  allowances: z.preprocess(
+    (val) => (val === '' || val === null || val === undefined ? 0 : Number(val)),
+    z.number({ required_error: "Allowances is required", invalid_type_error: "Allowances must be a number" })
+     .nonnegative({ message: "Allowances must be a non-negative number" })
+  ),
+  deductions: z.preprocess(
+    (val) => (val === '' || val === null || val === undefined ? 0 : Number(val)),
+    z.number({ required_error: "Deductions is required", invalid_type_error: "Deductions must be a number" })
+     .nonnegative({ message: "Deductions must be a non-negative number" })
   )
 });

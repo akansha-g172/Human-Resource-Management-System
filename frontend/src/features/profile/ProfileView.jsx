@@ -223,16 +223,6 @@ export default function ProfileView() {
               </div>
             </div>
 
-            {/* Salary */}
-            <div className="flex items-center gap-3">
-              <DollarSign className="w-4.5 h-4.5 text-neutral-400 shrink-0" />
-              <div>
-                <span className="block text-[9px] font-bold text-neutral-400 uppercase">Salary Rate (Annual)</span>
-                <span className="text-xs font-semibold text-neutral-700 block mt-0.5">
-                  {profile.salary ? `$${profile.salary.toLocaleString()}` : 'Negotiating'}
-                </span>
-              </div>
-            </div>
           </CardContent>
           <div className="px-6 py-4 bg-amber-50/50 border-t border-neutral-100 text-center">
             <span className="text-[10px] text-amber-700 font-semibold leading-normal">

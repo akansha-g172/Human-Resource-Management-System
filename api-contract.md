@@ -47,9 +47,10 @@ Response 200:
 {
   "id": "uuid", "name": "string", "email": "string", "photoUrl": "string|null",
   "jobTitle": "string|null", "department": "string|null", "phone": "string|null",
-  "address": "string|null", "salary": "number|null", "dateJoined": "YYYY-MM-DD"
+  "address": "string|null", "dateJoined": "YYYY-MM-DD"
 }
 ```
+Note: salary fields are NOT included here — see Payroll section below, kept separate since access rules differ (employees see their own read-only, admins see/edit everyone's).
 
 ### PATCH /profile/me
 Auth: any logged-in user (can only edit own address/phone/photo)
@@ -61,12 +62,40 @@ Response 200: same shape as GET /profile/me
 
 ### GET /employees
 Auth: admin only
-Response 200: array of profile objects (same shape as above), all employees
+Response 200: array of profile objects (same shape as above, no salary fields), all employees
 
 ### PATCH /employees/{userId}
-Auth: admin only (can edit any field)
-Request: any subset of employee fields (jobTitle, department, phone, address, salary)
+Auth: admin only (can edit any non-salary field)
+Request: any subset of `{ jobTitle, department, phone, address }`
 Response 200: updated profile object
+
+---
+
+## Payroll
+
+### GET /payroll/me
+Auth: employee (read-only)
+Response 200:
+```json
+{ "basicPay": "number", "allowances": "number", "deductions": "number", "netPay": "number" }
+```
+Note: `netPay` is computed server-side as `basicPay + allowances - deductions`, never stored or accepted as input.
+
+### GET /payroll
+Auth: admin only
+Response 200: array of
+```json
+{ "userId": "uuid", "userName": "string", "basicPay": "number", "allowances": "number", "deductions": "number", "netPay": "number" }
+```
+
+### PATCH /payroll/{userId}
+Auth: admin only
+Request:
+```json
+{ "basicPay": "number", "allowances": "number", "deductions": "number" }
+```
+Response 200: updated payroll object (same shape as GET /payroll/me, plus `userId`)
+Response 400: `{ "error": "Values must be non-negative" }`
 
 ---
 

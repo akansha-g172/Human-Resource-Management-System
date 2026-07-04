@@ -12,7 +12,6 @@ export let mockProfiles = [
     department: "Human Resources",
     phone: "+1-555-0101",
     address: "123 Admin Way, Metro City",
-    salary: 120000.00,
     dateJoined: "2020-01-01"
   },
   {
@@ -26,7 +25,6 @@ export let mockProfiles = [
     department: "Engineering",
     phone: "+1-555-0102",
     address: "456 Elm St, Suburbia",
-    salary: 85000.00,
     dateJoined: "2026-07-04"
   },
   {
@@ -40,7 +38,6 @@ export let mockProfiles = [
     department: "Design",
     phone: "+1-555-0103",
     address: "789 Pine Rd, Creative Town",
-    salary: 80000.00,
     dateJoined: "2026-05-15"
   },
   {
@@ -54,7 +51,6 @@ export let mockProfiles = [
     department: "Quality Assurance",
     phone: "+1-555-0104",
     address: "321 Oak Ln, Bug City",
-    salary: 70000.00,
     dateJoined: "2026-02-10"
   },
   {
@@ -68,7 +64,6 @@ export let mockProfiles = [
     department: "Marketing",
     phone: "+1-555-0105",
     address: "555 Maple Dr, Salesville",
-    salary: 72000.00,
     dateJoined: "2025-11-20"
   },
   {
@@ -82,7 +77,6 @@ export let mockProfiles = [
     department: "Human Resources",
     phone: "+1-555-0106",
     address: "888 Plaza St, Themyscira",
-    salary: 75000.00,
     dateJoined: "2024-06-18"
   }
 ];
@@ -124,13 +118,12 @@ export async function mockUpdateEmployeeProfile(userId, data) {
   const index = mockProfiles.findIndex(p => p.id === userId);
   if (index === -1) throw { response: { status: 404, data: { error: "Profile not found" } } };
   
-  // Admin can edit any of: jobTitle, department, phone, address, salary
+  // Admin can edit any of: jobTitle, department, phone, address, photoUrl
   const allowed = {};
   if (data.jobTitle !== undefined) allowed.jobTitle = data.jobTitle;
   if (data.department !== undefined) allowed.department = data.department;
   if (data.phone !== undefined) allowed.phone = data.phone;
   if (data.address !== undefined) allowed.address = data.address;
-  if (data.salary !== undefined) allowed.salary = data.salary;
   if (data.photoUrl !== undefined) allowed.photoUrl = data.photoUrl;
   if (data.name !== undefined) allowed.name = data.name; // In case admin wants to change name
   

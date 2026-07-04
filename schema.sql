@@ -34,7 +34,10 @@ CREATE TABLE employees (
     department      TEXT,
     phone           TEXT,
     address         TEXT,
-    salary          NUMERIC(12, 2),
+    basic_pay       NUMERIC(12, 2) DEFAULT 0,
+    allowances      NUMERIC(12, 2) DEFAULT 0,
+    deductions      NUMERIC(12, 2) DEFAULT 0,
+    -- net_pay is NOT stored — always computed as basic_pay + allowances - deductions
     date_joined     DATE DEFAULT CURRENT_DATE
 );
 

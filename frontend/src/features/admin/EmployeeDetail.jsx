@@ -12,7 +12,6 @@ export default function EmployeeDetail({ employee, onSave, onCancel, loading }) 
     department: employee.department || '',
     phone: employee.phone || '',
     address: employee.address || '',
-    salary: employee.salary !== null && employee.salary !== undefined ? String(employee.salary) : '',
   });
 
   const [errors, setErrors] = useState({});
@@ -81,19 +80,6 @@ export default function EmployeeDetail({ employee, onSave, onCancel, loading }) 
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Salary */}
-        <Input
-          id="salary"
-          name="salary"
-          label="Salary Rate"
-          type="number"
-          step="0.01"
-          placeholder="e.g. 75000"
-          value={formData.salary}
-          onChange={handleChange}
-          error={errors.salary}
-        />
-
         {/* Phone */}
         <Input
           id="phone"

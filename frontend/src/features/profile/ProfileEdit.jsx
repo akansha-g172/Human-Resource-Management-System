@@ -5,19 +5,13 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { useToast } from '../../components/ui/Toast';
 
-// Combined schema for admin self-editing
+// Combined schema for admin self-editing (no salary)
 const adminSelfEditSchema = z.object({
   phone: z.string().trim().nullable().or(z.string().trim().min(0)),
   address: z.string().trim().nullable().or(z.string().trim().min(0)),
   photoUrl: z.string().trim().url({ message: "Must be a valid image URL" }).or(z.string().length(0)).nullable(),
   jobTitle: z.string().trim().min(1, { message: "Job title is required" }),
-  department: z.string().trim().min(1, { message: "Department is required" }),
-  salary: z.preprocess(
-    (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
-    z.number({ invalid_type_error: "Salary must be a number" })
-     .nonnegative({ message: "Salary must be non-negative" })
-     .nullable()
-  )
+  department: z.string().trim().min(1, { message: "Department is required" })
 });
 
 export default function ProfileEdit({ profile, onSave, onCancel, loading, isAdmin }) {
@@ -28,8 +22,7 @@ export default function ProfileEdit({ profile, onSave, onCancel, loading, isAdmi
     address: profile.address || '',
     photoUrl: profile.photoUrl || '',
     jobTitle: profile.jobTitle || '',
-    department: profile.department || '',
-    salary: profile.salary !== null && profile.salary !== undefined ? String(profile.salary) : '',
+    department: profile.department || ''
   });
 
   const [errors, setErrors] = useState({});
@@ -90,21 +83,6 @@ export default function ProfileEdit({ profile, onSave, onCancel, loading, isAdmi
             required
           />
         </div>
-      )}
-
-      {/* Salary for Admin */}
-      {isAdmin && (
-        <Input
-          id="salary"
-          name="salary"
-          label="Salary Rate"
-          type="number"
-          step="0.01"
-          placeholder="e.g. 120000"
-          value={formData.salary}
-          onChange={handleChange}
-          error={errors.salary}
-        />
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
