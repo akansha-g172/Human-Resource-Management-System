@@ -14,25 +14,27 @@ All responses are JSON, camelCase keys (Pydantic `alias_generator` handles snake
 Auth: none
 Request:
 ```json
-{ "name": "string", "email": "string", "password": "string", "role": "admin" | "employee" }
+{ "name": "string", "email": "string", "password": "string", "role": "admin" | "employee", "startDate": "YYYY-MM-DD" }
 ```
+Note: `employeeId` is NOT sent by the client — the backend generates it as
+`OD` + (first letter of first name + first letter of last name, uppercase) + (startDate as YYMMDD) + (3-digit daily serial number), e.g. `ODJD260704007`.
 Response 201:
 ```json
-{ "id": "uuid", "name": "string", "email": "string", "role": "admin" | "employee" }
+{ "id": "uuid", "employeeId": "ODJD260704007", "name": "string", "email": "string", "role": "admin" | "employee" }
 ```
 Response 400: `{ "error": "Email already registered" }`
 
 ### POST /login
 Auth: none
-Request:
+Request (accepts either identifier):
 ```json
-{ "email": "string", "password": "string" }
+{ "identifier": "email-or-employeeId-string", "password": "string" }
 ```
 Response 200:
 ```json
-{ "accessToken": "jwt-string", "userId": "uuid", "name": "string", "role": "admin" | "employee" }
+{ "accessToken": "jwt-string", "userId": "uuid", "employeeId": "string", "name": "string", "role": "admin" | "employee" }
 ```
-Response 401: `{ "error": "Invalid email or password" }`
+Response 401: `{ "error": "Invalid credentials" }`
 
 ---
 

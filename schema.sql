@@ -10,12 +10,19 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";  -- for gen_random_uuid()
 -- ---------------------------------------------------------
 CREATE TABLE users (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    employee_id     TEXT UNIQUE NOT NULL,   -- e.g. ODJD260704007 (system-generated, see api-contract.md)
     name            TEXT NOT NULL,
     email           TEXT UNIQUE NOT NULL,
     password_hash   TEXT NOT NULL,
     role            TEXT NOT NULL CHECK (role IN ('admin', 'employee')),
     photo_url       TEXT,
     created_at      TIMESTAMP DEFAULT now()
+);
+
+-- Tracks the daily serial counter used to generate employee_id
+CREATE TABLE employee_id_counters (
+    date_key        DATE PRIMARY KEY,   -- the join/start date
+    last_serial     INTEGER NOT NULL DEFAULT 0
 );
 
 -- ---------------------------------------------------------
