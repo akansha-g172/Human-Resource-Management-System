@@ -178,26 +178,15 @@ export default function Navbar({ onMenuToggle }) {
                 <p className="text-[9px] text-primary-500 font-bold tracking-wider mt-0.5">{user.employeeId}</p>
               </div>
 
-              {/* My Profile Link */}
-              {user.role === 'employee' ? (
-                <Link
-                  to="/profile"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
-                >
-                  <User className="w-4 h-4 text-neutral-400" />
-                  My Profile
-                </Link>
-              ) : (
-                <Link
-                  to="/admin/employees"
-                  onClick={() => setDropdownOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
-                >
-                  <User className="w-4 h-4 text-neutral-400" />
-                  Employee Directory
-                </Link>
-              )}
+              {/* Profile Links */}
+              <Link
+                to={user.role === 'admin' ? "/admin/profile" : "/profile"}
+                onClick={() => setDropdownOpen(false)}
+                className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900 transition-colors"
+              >
+                <User className="w-4 h-4 text-neutral-400" />
+                My Profile
+              </Link>
 
               {/* Logout Button */}
               <button

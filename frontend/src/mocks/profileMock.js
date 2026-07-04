@@ -131,6 +131,7 @@ export async function mockUpdateEmployeeProfile(userId, data) {
   if (data.phone !== undefined) allowed.phone = data.phone;
   if (data.address !== undefined) allowed.address = data.address;
   if (data.salary !== undefined) allowed.salary = data.salary;
+  if (data.photoUrl !== undefined) allowed.photoUrl = data.photoUrl;
   if (data.name !== undefined) allowed.name = data.name; // In case admin wants to change name
   
   mockProfiles[index] = {

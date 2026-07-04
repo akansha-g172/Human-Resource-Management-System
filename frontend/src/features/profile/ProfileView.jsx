@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import * as profileService from './profileService';
+import * as adminService from '../admin/adminService';
 import ProfileEdit from './ProfileEdit';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/Card';
 import Spinner from '../../components/ui/Spinner';
@@ -49,7 +50,12 @@ export default function ProfileView() {
   const handleSaveProfile = async (formData) => {
     setSaveLoading(true);
     try {
-      const updated = await profileService.updateProfileMe(formData, user.userId);
+      let updated;
+      if (user.role === 'admin') {
+        updated = await adminService.updateEmployee(user.userId, formData);
+      } else {
+        updated = await profileService.updateProfileMe(formData, user.userId);
+      }
       setProfile(updated);
       setEditMode(false);
       showToast("Profile updated successfully!", "success");
@@ -146,6 +152,7 @@ export default function ProfileView() {
                 onSave={handleSaveProfile} 
                 onCancel={() => setEditMode(false)}
                 loading={saveLoading}
+                isAdmin={user.role === 'admin'}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

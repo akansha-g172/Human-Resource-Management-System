@@ -60,6 +60,7 @@ export default function App() {
               <Route path="employees" element={<EmployeeList />} />
               <Route path="leave" element={<LeaveApprovals />} />
               <Route path="attendance" element={<AttendanceView />} />
+              <Route path="profile" element={<ProfileView />} />
             </Route>
 
             {/* Fallback routes */}
