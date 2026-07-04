@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signInSchema } from '../../utils/validators';
 import useAuth from '../../hooks/useAuth';
 import Input from '../../components/ui/Input';
+import PasswordInput from '../../components/ui/PasswordInput';
 import Button from '../../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
 import { useToast } from '../../components/ui/Toast';
@@ -114,17 +115,17 @@ export default function SignIn() {
             />
 
             {/* Password */}
-            <Input
+            <PasswordInput
               id="password"
               name="password"
               label="Password"
-              type="password"
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
               error={errors.password}
               required
-              className="text-white placeholder-neutral-500 [&>input]:bg-neutral-950/60 [&>input]:border-white/10 [&>input]:text-white [&>input]:placeholder-neutral-500 [&>label]:text-neutral-300 [&>input]:focus:border-primary-500 [&>input]:focus:ring-primary-500"
+              showCriteria={false}
+              className="text-white placeholder-neutral-500 [&_input]:bg-neutral-950/60 [&_input]:border-white/10 [&_input]:text-white [&_input]:placeholder-neutral-500 [&_label]:text-neutral-300 [&_input]:focus:border-primary-500 [&_input]:focus:ring-primary-500"
             />
 
             <Button

@@ -72,30 +72,6 @@ export default function EmployeeDashboard() {
     );
   }
 
-  // Quick Action cards definitions
-  const quickActions = [
-    {
-      title: 'My Profile',
-      desc: 'View and update your personal contact information.',
-      icon: UserCircle,
-      to: '/profile',
-      color: 'bg-primary-50 text-primary-600 border-primary-100',
-    },
-    {
-      title: 'Attendance',
-      desc: 'Check in or check out for today and view history.',
-      icon: Clock,
-      to: '/attendance',
-      color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-    },
-    {
-      title: 'Leave Requests',
-      desc: 'Apply for leaves and track approval status.',
-      icon: CalendarDays,
-      to: '/leave',
-      color: 'bg-sky-50 text-sky-600 border-sky-100',
-    },
-  ];
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -110,11 +86,11 @@ export default function EmployeeDashboard() {
         </p>
       </div>
 
-      {/* Grid: Quick Actions + Today's Status */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Grid: Today's Status */}
+      <div className="max-w-md">
         
         {/* Today's Clock In Card */}
-        <Card className="lg:col-span-1 border-primary-100/50 shadow-md">
+        <Card className="border-primary-100/50 shadow-md">
           <CardHeader className="bg-primary-50/20">
             <CardTitle className="text-sm font-bold text-neutral-800 flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary-500" />
@@ -166,32 +142,6 @@ export default function EmployeeDashboard() {
             </Link>
           </CardContent>
         </Card>
-
-        {/* Quick Access Menu */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Card key={action.title} hover className="flex flex-col justify-between border-neutral-200/60">
-                <CardHeader className="pb-2">
-                  <div className={`w-8 h-8 rounded-lg ${action.color} border flex items-center justify-center mb-2`}>
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <CardTitle className="text-sm font-bold text-neutral-800">{action.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="pb-4 pt-1 flex-1 flex flex-col justify-between">
-                  <p className="text-xs text-neutral-500 leading-relaxed mb-4">
-                    {action.desc}
-                  </p>
-                  <Link to={action.to} className="inline-flex items-center text-xs font-bold text-primary-600 hover:text-primary-700 transition-colors">
-                    Go to page
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                  </Link>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
 
       </div>
 
