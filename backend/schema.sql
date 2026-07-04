@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS profiles (
     id              UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     employee_id     TEXT UNIQUE NOT NULL,   -- System-generated, e.g. ODJD260704007
     login_id        TEXT UNIQUE NOT NULL,   -- System-generated, e.g. john.doe, john.doe1
+    first_name      TEXT NOT NULL,
+    last_name       TEXT NOT NULL,
     name            TEXT NOT NULL,
     email           TEXT UNIQUE NOT NULL,
     role            TEXT NOT NULL CHECK (role IN ('admin', 'employee')),
@@ -30,6 +32,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     phone           TEXT,
     address         TEXT,
     salary          NUMERIC(12, 2) DEFAULT 0.00,
+    must_change_password BOOLEAN NOT NULL DEFAULT TRUE,
     date_joined     DATE DEFAULT CURRENT_DATE,
     created_at      TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
